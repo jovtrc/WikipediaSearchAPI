@@ -49,12 +49,12 @@ function fetchApi(query, lang) {
     if(query) {
         fetch(`https://${lang}.wikipedia.org/w/rest.php/v1/search/title?q=${query}&limit=10`)
             .then(response => response.json())
-            .then(data => renderSearch(data, `${query}`));
+            .then(data => renderSearch(data, query, lang));
     }
 }
 
 // Render the search results, if exists
-function renderSearch({ pages }, query) {
+function renderSearch({ pages }, query, lang) {
     let results = document.querySelector('.search__results');
 
     if (undefined != pages && null !== pages) {
@@ -67,7 +67,7 @@ function renderSearch({ pages }, query) {
 
             let pageElement = `
                 <li class="search__results__item">
-                    <a href="https://en.wikipedia.org/wiki/${page.key}" target="_blank">
+                    <a href="https://${lang}.wikipedia.org/wiki/${page.key}" target="_blank">
                         <img src="${pageThumbnail}" alt="${page.title}" alt="${pageDescription}">
                         <p>
                             ${page.title}
@@ -82,7 +82,7 @@ function renderSearch({ pages }, query) {
 
         let moreLink = `
             <li class="search__results__item">
-                <a href="https://en.wikipedia.org/w/index.php?title=Special%3ASearch&fulltext=1&search=${query}" target="_blank">
+                <a href="https://${lang}.wikipedia.org/w/index.php?title=Special%3ASearch&fulltext=1&search=${query}" target="_blank">
                     <p>
                         Search for pages containing
                         <strong>${query}</strong>...
